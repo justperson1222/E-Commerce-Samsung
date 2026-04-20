@@ -115,7 +115,7 @@ function renderProducts() {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-            <img src="${currentImage}" class="product-image" onclick="showDetail(${product.id})" style="cursor:pointer">
+            <img src="${currentImage}" class="product-image" onclick="showDetail(${product.id})" style="cursor:pointer" onerror="this.src='https://via.placeholder.com/300x200?text=Product+Image'">
             
             <h3 onclick="showDetail(${product.id})" style="cursor:pointer">${product.name}</h3>
             
@@ -169,7 +169,7 @@ function showDetail(productId) {
         <div class="modal-detail-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left;">
             
             <div style="grid-column: 1; display: flex; justify-content: center;">
-                <img src="${product.colors[cIdx].image}" alt="${product.name}" style="width: 100%; height: auto;">
+                <img src="${product.colors[cIdx].image}" alt="${product.name}" style="width: 100%; height: auto;" onerror="this.src='https://via.placeholder.com/400x300?text=Product+Image'">
             </div>
 
             <div style="grid-column: 2;">
