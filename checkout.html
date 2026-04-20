@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Samsung Store</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body style="background-color: #f4f4f4; margin: 0; font-family: Arial, sans-serif;">
+
+    <div class="checkout-wrapper">
+        <h2 style="margin-bottom: 25px; text-align: center;">Selesaikan Pembayaran</h2>
+        
+        <div class="checkout-grid">
+            <div class="checkout-form-section">
+                <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Informasi Pengiriman</h3>
+                <div class="input-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="cust-name" placeholder="Masukkan nama penerima">
+                </div>
+                <div class="input-group">
+                    <label>Nomor Telepon</label>
+                    <input type="number" id="cust-phone" placeholder="Contoh: 08123456789">
+                </div>
+                <div class="input-group">
+                    <label>Alamat Lengkap</label>
+                    <textarea id="cust-address" placeholder="Jalan, RT/RW, Kecamatan, Kota..." rows="3"></textarea>
+                </div>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px; font-size: 1.2rem;">Metode Pembayaran</h3>
+                <div class="payment-options">
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="BCA" checked>
+                        <span>Transfer Bank BCA</span>
+                    </label>
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="Mandiri">
+                        <span>Transfer Bank Mandiri</span>
+                    </label>
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="E-Wallet">
+                        <span>E-Wallet (GoPay / OVO)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="checkout-summary-section">
+                <h3 style="margin-bottom: 20px; font-size: 1.2rem;">Ringkasan Pesanan</h3>
+                <ul id="checkout-items" class="summary-list">
+                    </ul>
+                
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="checkout-subtotal">Rp 0</span>
+                </div>
+                <div class="summary-row" style="border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 15px;">
+                    <span>Biaya Pengiriman</span>
+                    <span>Gratis</span>
+                </div>
+                
+                <div class="summary-total">
+                    <span>Total Bayar:</span>
+                    <strong id="checkout-total-price">Rp 0</strong>
+                </div>
+                
+                <button class="pay-button" onclick="processPayment()">Konfirmasi & Bayar</button>
+                <button class="cancel-button" onclick="backToShop()">Kembali ke Toko</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Ambil data keranjang dari localStorage
+        const cartData = localStorage.getItem('samsungCart');
+        let checkoutCart = cartData ? JSON.parse(cartData) : [];
+
+        // 2. Fungsi untuk menampilkan item
+        function renderSummary() {
+            // Jika tiba-tiba keranjang kosong (misal langsung buka file ini)
+            if (checkoutCart.length === 0) {
+                alert("Keranjang Anda kosong. Kembali ke toko.");
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const list = document.getElementById('checkout-items');
+            const subtotalEl = document.getElementById('checkout-subtotal');
+            const totalEl = document.getElementById('checkout-total-price');
+            
+            list.innerHTML = '';
+            let total = 0;
+
+            checkoutCart.forEach(item => {
+                total += item.price;
+                list.innerHTML += `
+                    <li>
+                        <span style="max-width: 70%;">${item.displayName}</span>
+                        <strong>Rp ${item.price.toLocaleString('id-ID')}</strong>
+                    </li>
+                `;
+            });
+
+            subtotalEl.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+            totalEl.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        // 3. Fungsi memproses pembayaran
+        function processPayment() {
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+
+            if (!name || !phone || !address) {
+                alert("Mohon lengkapi Informasi Pengiriman terlebih dahulu!");
+                return;
+            }
+
+            alert(`Pesanan Berhasil!\n\nTerima kasih, ${name}.\nTotal belanja Anda sedang diproses.`);
+            
+            // Hapus data keranjang karena sudah dibayar
+            localStorage.removeItem('samsungCart');
+            
+            // Kembali ke halaman utama
+            window.location.href = 'index.html';
+        }
+
+        // 4. Fungsi tombol batal
+        function backToShop() {
+            window.location.href = 'index.html';
+        }
+
+        // Jalankan saat halaman dibuka
+        renderSummary();
+    </script>
+</body>
+</html>

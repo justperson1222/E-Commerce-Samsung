@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung Galaxy Store Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1>Samsung Galaxy<span>.</span></h1>
+            <div class="cart-info">Keranjang: <span id="cart-count">0</span></div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="products-container" class="product-grid"></section>
+        <aside id="cart-container">
+            <div class="cart-box">
+                <h2>Pesanan Anda</h2>
+                <ul id="cart-items"></ul>
+                <div class="cart-summary">
+                    <p>Total Pembayaran</p>
+                    <p class="total-price">Rp <span id="cart-total">0</span></p>
+                    <button onclick="checkout()">Bayar Sekarang</button>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
